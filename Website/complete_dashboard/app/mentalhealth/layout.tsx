@@ -4,6 +4,8 @@ const sidebarItems = [
   { name: 'Dashboard', href: '/mentalhealth/dashboard' },
   { name: 'AI Therapy Assistant', href: '/mentalhealth/therapy-assistant' },
   { name: 'Mood Tracker', href: '/mentalhealth/mood-tracker' },
+  { name: 'Mental Health', href: '/mentalhealth/mental-health' },
+
 ]
 
 export default function MentalHealthLayout({

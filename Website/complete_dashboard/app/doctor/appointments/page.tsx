@@ -119,7 +119,7 @@ export default function AppointmentsPage() {
 
   const handleCancelAppointment = (id: number) => {
     const updatedAppointments = appointments.map(appointment =>
-      appointment.id === id ? { ...appointment, status: 'Cancelled' } : appointment
+      appointment.id === id ? { ...appointment, status: 'Cancelled' as const } : appointment
     )
     setAppointments(updatedAppointments)
     setSelectedAppointment(null)

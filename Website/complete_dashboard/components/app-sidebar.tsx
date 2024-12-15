@@ -12,28 +12,28 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from '@/components/ui/sidebar'
-import { Activity, AlertTriangle, Ambulance, Brain, Calendar, Heart, Home, Image, Microscope, Settings, Stethoscope, Users } from 'lucide-react'
+import { Activity, AlertTriangle, Brain, Calendar, Eye, Home, Image, Settings, Stethoscope, Users } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 const menuItems = [
-  { icon: Home, label: 'Dashboard', href: '/' },
-  { icon: Activity, label: 'Patient Monitoring', href: '/patient-monitoring' },
-  { icon: AlertTriangle, label: 'Early Detection', href: '/early-detection' },
-  { icon: Brain, label: 'Mental Health', href: '/mental-health' },
-  { icon: Image, label: 'Medical Imaging', href: '/medical-imaging' },
-  { icon: Users, label: 'Workload Management', href: '/workload-management' },
+  { icon: Home, label: 'Dashboard', href: '/admin/dashboard' },
+  { icon: Activity, label: 'Billing', href: '/admin/billing' },
+  { icon: AlertTriangle, label: 'Emergency Response', href: '/admin/emergency-response' },
+  { icon: Brain, label: 'Budget Planning', href: '/admin/budget-planning' },
+  { icon: Image, label: 'Medication Management', href: '/admin/medication-management' },
+  { icon: Users, label: 'Resource Allocation', href: '/admin/resource-allocation' },
   // { icon: GraduationCap, label: 'Training & Education', href: '/training' },
-  { icon: Ambulance, label: 'Emergency Response', href: '/emergency-response' },
-  { icon: Heart, label: 'Personal Health', href: '/personal-health' },
-  { icon: Calendar, label: 'Resource Allocation', href: '/resource-allocation' },
-  // { icon: Eye, label: 'Diagnostic Support', href: '/diagnostic-support' },
-  { icon: Microscope, label: 'Medication Management', href: '/medication-management' },
-  { icon: Stethoscope, label: 'Facility Monitoring', href: '/facility-monitoring' },
+  // { icon: Ambulance, label: 'Emergency Response', href: '/admin/emergency-response' },
+  // { icon: Heart, label: 'Personal Health', href: '/personal-health' },
+  { icon: Calendar, label: 'Management System', href: '/admin/management-system' },
+  { icon: Eye, label: 'Visitor Management', href: '/admin/visitors' },
+  // { icon: Microscope, label: 'Medication Management', href: '/admin/medication-management' },
+  { icon: Stethoscope, label: 'Facility Monitoring', href: '/admin/facility-monitoring' },
   // { icon: Zap, label: 'IoT Patient Monitoring', href: '/iot-patient-monitoring' },
   // { icon: Shield, label: 'Secure EHR', href: '/secure-ehr' },
   // { icon: Trash2, label: 'Stress Detection', href: '/stress-detection' },
-  { icon: Settings, label: 'Settings', href: '/settings' },
+  { icon: Settings, label: 'Settings', href: '/admin/settings' },
 ]
 
 export function AppSidebar() {
