@@ -13,8 +13,13 @@ const getMedicalRecords = () => [
   { id: '4', date: '2022-09-20', time: '09:00', title: 'X-Ray Report', pdfLink: '/pdfs/x-ray-2022.pdf', patientId: '101', patientName: 'John Doe' },
 ]
 
+interface Patient {
+  id: string;
+  name: string;
+}
+
 export function MedicalRecords({ patientId }: { patientId?: string }) {
-  const [selectedPatient, setSelectedPatient] = useState(null)
+  const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null)
   const allRecords = getMedicalRecords()
   const medicalRecords = patientId ? allRecords.filter(record => record.patientId === patientId) : allRecords
 
