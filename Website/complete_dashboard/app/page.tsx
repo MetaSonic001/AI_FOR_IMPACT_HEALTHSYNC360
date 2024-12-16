@@ -149,13 +149,13 @@ export default function LandingPage() {
             ].map((feature, index) => (
               <Card key={index} className="bg-white/10 backdrop-blur-md border-white/20 shadow-md hover:shadow-lg transition-shadow duration-300">
                 <CardHeader>
-                  <div className="w-12 h-12 bg-[#1EA896] rounded-full flex items-center justify-center mb-4 mx-auto">
+                  <div className="w-12 h-12 bg-[#FF715B] rounded-full flex items-center justify-center mb-4 mx-auto">
                     <feature.icon className="w-6 h-6 text-white" />
                   </div>
                   <CardTitle className="text-center text-[#222222]">{feature.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <CardDescription className="text-center text-[#0E7C7B]">{feature.description}</CardDescription>
+                  <CardDescription className="text-center text-[#918868]">{feature.description}</CardDescription>
                 </CardContent>
               </Card>
             ))}
