@@ -8,7 +8,18 @@ const patients = [
   { id: 5, name: "Edward Norton", age: 41, condition: "Critical" },
 ]
 
-export function PatientList({ onSelectPatient }) {
+interface Patient {
+  id: number;
+  name: string;
+  age: number;
+  condition: string;
+}
+
+interface PatientListProps {
+  onSelectPatient: (patient: Patient) => void;
+}
+
+export function PatientList({ onSelectPatient }: PatientListProps) {
   return (
     <Table>
       <TableHeader>

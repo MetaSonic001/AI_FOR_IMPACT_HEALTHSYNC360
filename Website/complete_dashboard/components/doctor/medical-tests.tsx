@@ -23,7 +23,7 @@ const getStatusColor = (status: string) => {
 }
 
 export function MedicalTests() {
-  const [selectedPatient, setSelectedPatient] = useState(null)
+  const [selectedPatient, setSelectedPatient] = useState<{ id: number, name: string, dob: string, contact: string, address: string, lastConsultation: string, hospital: string, type: string, priority: string } | null>(null)
   const medicalTests = getMedicalTests()
 
   return (
@@ -52,7 +52,7 @@ export function MedicalTests() {
                 </TableCell>
                 <TableCell>{test.result || '-'}</TableCell>
                 <TableCell>
-                  <Button variant="link" onClick={() => setSelectedPatient({ id: test.patientId, name: test.patientName })}>
+                  <Button variant="link" onClick={() => setSelectedPatient({ id: Number(test.patientId), name: test.patientName, dob: 'N/A', contact: 'N/A', address: 'N/A', lastConsultation: 'N/A', hospital: 'N/A', type: 'N/A', priority: 'N/A' })}>
                     {test.patientName}
                   </Button>
                 </TableCell>

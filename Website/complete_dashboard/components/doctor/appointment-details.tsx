@@ -8,7 +8,17 @@ import { useState } from "react"
 
 interface Appointment {
   patient: {
+    id: number;
     name: string;
+    lastConsultation: string;
+    hospital: string;
+    type: string;
+    age: number;
+    gender: string;
+    contact: string;
+    priority: string;
+    dob: string;
+    address: string;
   };
   time: string;
   hospital: string;

@@ -15,7 +15,12 @@ const generateVitalData = () => {
   return data
 }
 
-export function PatientVitals({ patient }) {
+interface Patient {
+  name: string;
+  // Add other properties of the patient object if needed
+}
+
+export function PatientVitals({ patient }: { patient: Patient }) {
   const data = generateVitalData()
 
   return (

@@ -22,9 +22,9 @@ import {
 import { useState } from "react"
 
 const patients = [
-  { id: 1, name: "John Doe", lastConsultation: "2023-12-15", hospital: "City Hospital", type: "In-person", priority: "critical" },
-  { id: 2, name: "Jane Smith", lastConsultation: "2024-01-05", hospital: "Metro Clinic", type: "Online", priority: "chronic" },
-  { id: 3, name: "Bob Johnson", lastConsultation: "2024-01-10", hospital: "Central Hospital", type: "In-person", priority: "regular" },
+  { id: 1, name: "John Doe", lastConsultation: "2023-12-15", hospital: "City Hospital", type: "In-person", priority: "critical", dob: "1980-01-01", contact: "123-456-7890", address: "123 Main St" },
+  { id: 2, name: "Jane Smith", lastConsultation: "2024-01-05", hospital: "Metro Clinic", type: "Online", priority: "chronic", dob: "1985-02-02", contact: "987-654-3210", address: "456 Elm St" },
+  { id: 3, name: "Bob Johnson", lastConsultation: "2024-01-10", hospital: "Central Hospital", type: "In-person", priority: "regular", dob: "1990-03-03", contact: "555-555-5555", address: "789 Oak St" },
 ]
 
 const getPriorityColor = (priority: string) => {
@@ -40,7 +40,7 @@ export default function PatientsPage() {
   const [searchTerm, setSearchTerm] = useState("")
   const [hospitalFilter, setHospitalFilter] = useState("all")
   const [typeFilter, setTypeFilter] = useState("all")
-  const [selectedPatient, setSelectedPatient] = useState<{ id: number; name: string; lastConsultation: string; hospital: string; type: string; priority: string } | null>(null)
+  const [selectedPatient, setSelectedPatient] = useState<{ id: number; name: string; lastConsultation: string; hospital: string; type: string; priority: string; dob: string; contact: string; address: string } | null>(null)
 
   const filteredPatients = patients.filter(patient =>
     patient.name.toLowerCase().includes(searchTerm.toLowerCase()) &&

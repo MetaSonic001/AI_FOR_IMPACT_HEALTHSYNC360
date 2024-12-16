@@ -10,7 +10,35 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
 import { useState } from 'react'
 
-export function PatientProfile({ patient, onClose }) {
+interface Patient {
+
+  id: number;
+
+  name: string;
+
+  lastConsultation: string;
+
+  hospital: string;
+
+  type: string;
+
+  priority: string;
+
+  dob: string;
+
+  contact: string;
+
+  address: string;
+
+}
+
+
+interface PatientProfileProps {
+  patient: Patient | null;
+  onClose: () => void;
+}
+
+export function PatientProfile({ patient, onClose }: PatientProfileProps) {
   const [activeTab, setActiveTab] = useState("overview")
   const [chatMessages, setChatMessages] = useState([
     { sender: 'Doctor', message: 'Hello, how can I help you today?' },
@@ -206,7 +234,7 @@ export function PatientProfile({ patient, onClose }) {
             </Card>
           </TabsContent>
           <TabsContent value="medical-records">
-            <MedicalRecords patientId={patient?.id} />
+            <MedicalRecords patientId={patient?.id?.toString()} />
           </TabsContent>
           <TabsContent value="chat">
             <Card>

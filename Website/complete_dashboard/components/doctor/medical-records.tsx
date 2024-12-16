@@ -14,8 +14,17 @@ const getMedicalRecords = () => [
 ]
 
 interface Patient {
-  id: string;
+  id: number;
   name: string;
+  lastConsultation: string;
+  hospital: string;
+  type: string;
+  priority: string;
+  age: number;
+  gender: string;
+  dob: string;
+  contact: string;
+  address: string;
 }
 
 export function MedicalRecords({ patientId }: { patientId?: string }) {
@@ -43,10 +52,10 @@ export function MedicalRecords({ patientId }: { patientId?: string }) {
             {medicalRecords.map((record) => (
               <TableRow key={record.id}>
                 <TableCell>{record.date}</TableCell>
-                <TableCell>{record.time}</TableCell>
+                  <Button variant="link" onClick={() => setSelectedPatient({ id: Number(record.patientId), name: record.patientName, lastConsultation: '', hospital: '', type: '', priority: '', age: 0, gender: '', dob: '', contact: '', address: '' })}></Button>
                 <TableCell>{record.title}</TableCell>
                 <TableCell>
-                  <Button variant="link" onClick={() => setSelectedPatient({ id: record.patientId, name: record.patientName })}>
+                  <Button variant="link" onClick={() => setSelectedPatient({ id: Number(record.patientId), name: record.patientName, lastConsultation: '', hospital: '', type: '', priority: '', age: 0, gender: '', dob: '', contact: '', address: '' })}>
                     {record.patientName}
                   </Button>
                 </TableCell>

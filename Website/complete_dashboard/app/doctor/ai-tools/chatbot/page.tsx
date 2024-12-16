@@ -29,7 +29,7 @@ export default function AIChatbotPage() {
     if (!input.trim()) return
 
     // Add user message
-    const userMessage = {
+    const userMessage: Message = {
       role: 'user',
       content: input.trim(),
       timestamp: new Date().toLocaleTimeString()
