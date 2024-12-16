@@ -1,6 +1,6 @@
 "use client"
 
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
+import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 
 const generateVitalData = () => {
   const data = []
@@ -20,7 +20,7 @@ export function PatientVitals({ patient }) {
 
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-semibold">{patient.name}'s Vitals</h3>
+      <h3 className="text-lg font-semibold">{patient.name}&apos;s Vitals</h3>
       <ResponsiveContainer width="100%" height={300}>
         <LineChart data={data}>
           <CartesianGrid strokeDasharray="3 3" />

@@ -14,23 +14,23 @@ import {
 } from "@/components/ui/collapsible"
 
 const sidebarItems = [
-  { name: "Home", href: "/doctors", icon: Home },
-  { name: "Appointments", href: "/doctors/appointments", icon: Calendar },
-  { name: "Patients", href: "/doctors/patients", icon: Users },
-  { name: "Analytics", href: "/doctors/analytics", icon: BarChart2 },
-  { name: "Video Consultation", href: "/doctors/video-consultation", icon: Video },
-  { name: "Dynamic Workflow", href: "/doctors/dynamic-workflow", icon: Video },
-  { name: "Patient Insights", href: "/doctors/patient-insights", icon: Video },
-  { name: "Settings", href: "/doctors/settings", icon: Settings },
+  { name: "Home", href: "/doctor/dashboard", icon: Home },
+  { name: "Appointments", href: "/doctor/appointments", icon: Calendar },
+  { name: "Patients", href: "/doctor/patients", icon: Users },
+  { name: "Analytics", href: "/doctor/analytics", icon: BarChart2 },
+  { name: "Video Consultation", href: "/doctor/video-consultation", icon: Video },
+  { name: "Dynamic Workflow", href: "/doctor/dynamic-workflow", icon: Video },
+  { name: "Patient Insights", href: "/doctor/patient-insights", icon: Video },
+  { name: "Settings", href: "/doctor/settings", icon: Settings },
 ]
 
 const aiTools = [
-  { name: "AI Chatbot", href: "/doctors/ai-tools/chatbot", icon: Bot },
-  { name: "AI Diagnostics", href: "/doctors/ai-tools/ai-diagnostics", icon: Lightbulb },
-  { name: "Case Summary", href: "/doctors/ai-tools/case-summary", icon: Bot },
-  { name: "Clinical Decision", href: "/doctors/ai-tools/clincical-decision", icon: Bot },
-  { name: "Early Detection", href: "/doctors/ai-tools/early-detection", icon: Bot },
-  // { name: "Integrated Diagnostic Assistant", href: "/doctors/ai-tools/integrated-diagnostic-assistant", icon: Bot },
+  { name: "AI Chatbot", href: "/doctor/ai-tools/chatbot", icon: Bot },
+  { name: "AI Diagnostics", href: "/doctor/ai-tools/ai-diagnostics", icon: Lightbulb },
+  { name: "Case Summary", href: "/doctor/ai-tools/case-summary", icon: Bot },
+  { name: "Clinical Decision", href: "/doctor/ai-tools/clincical-decision", icon: Bot },
+  { name: "Early Detection", href: "/doctor/ai-tools/early-detection", icon: Bot },
+  // { name: "Integrated Diagnostic Assistant", href: "/doctor/ai-tools/integrated-diagnostic-assistant", icon: Bot },
 
 ]
 

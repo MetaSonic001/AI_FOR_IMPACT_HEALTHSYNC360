@@ -1,9 +1,10 @@
 import Sidebar from '@/components/Sidebar'
+import { ThemeProvider } from '@/components/theme-provider'
 
 const sidebarItems = [
   { name: 'Dashboard', href: '/radiologist/dashboard' },
   { name: 'AI Imaging Analysis', href: '/radiologist/ai-imaging-analysis' },
-  { name: 'Image Archive', href: '/radiologist/image-achive' },
+  { name: 'Image Archive', href: '/radiologist/image-archive' },
   { name: 'Automated Prioritization', href: '/radiologist/auto-prioritization' },
   { name: 'Peer Review Platform', href: '/radiologist/peer-review-platform' },
 ]
@@ -14,9 +15,18 @@ export default function RadiologistLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex h-screen ">
       <Sidebar items={sidebarItems} />
-      <main className="flex-1 overflow-y-auto p-6">{children}</main>
+      <main className="flex-1 overflow-y-auto p-6">
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="dark"
+        enableSystem
+        disableTransitionOnChange
+      >
+        {children}
+        </ThemeProvider>
+        </main>
     </div>
   )
 }
