@@ -125,7 +125,7 @@ export default function BillingAndClaimsManagement() {
   // Status badge color mapping
   const getStatusBadgeVariant = (status: Claim['status']) => {
     switch (status) {
-      case 'Approved': return 'success'
+      case 'Approved': return 'default'
       case 'Rejected': return 'destructive'
       case 'Pending': return 'secondary'
     }

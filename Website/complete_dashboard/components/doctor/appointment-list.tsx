@@ -26,8 +26,26 @@ const getPriorityColor = (priority: string) => {
   }
 }
 
-export function AppointmentList({ onSelectAppointment, onSelectPatient }) {
-  const [selectedAppointment, setSelectedAppointment] = useState(null)
+interface AppointmentListProps {
+  onSelectAppointment?: (appointment: any) => void;
+  onSelectPatient?: (patient: any) => void;
+}
+
+export function AppointmentList({ onSelectAppointment, onSelectPatient }: AppointmentListProps) {
+  
+  interface Appointment {
+    id: number;
+    time: string;
+    patient: {
+      id: number;
+      name: string;
+      priority: string;
+    };
+    hospital: string;
+    type: string;
+  }
+  
+  const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null)
 
   return (
     <>

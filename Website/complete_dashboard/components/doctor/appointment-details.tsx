@@ -6,7 +6,21 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
 import { useState } from "react"
 
-export function AppointmentDetails({ appointment, onClose }) {
+interface Appointment {
+  patient: {
+    name: string;
+  };
+  time: string;
+  hospital: string;
+  type: string;
+}
+
+interface AppointmentDetailsProps {
+  appointment: Appointment;
+  onClose: () => void;
+}
+
+export function AppointmentDetails({ appointment, onClose }: AppointmentDetailsProps) {
   const [showPatientDetails, setShowPatientDetails] = useState(false)
   const [prescription, setPrescription] = useState("")
   const [reportSummary, setReportSummary] = useState("")
