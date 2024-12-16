@@ -1,14 +1,25 @@
-"use client"
+'use client'
 
+import { useState, useEffect } from 'react'
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { useState } from 'react'
+import { GoogleGenerativeAI } from "@google/generative-ai"
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 
-const mockPatientData = [
+// Define types
+type Patient = {
+  id: number;
+  name: string;
+  age: number;
+  riskScore: number;
+  condition: string;
+  additionalDetails?: string;
+}
+
+const mockPatientData: Patient[] = [
   { id: 1, name: "John Doe", age: 45, riskScore: 0.8, condition: "Sepsis" },
   { id: 2, name: "Jane Smith", age: 62, riskScore: 0.6, condition: "Cardiac Arrest" },
   { id: 3, name: "Mike Johnson", age: 55, riskScore: 0.4, condition: "Respiratory Failure" },
@@ -23,8 +34,53 @@ const mockVitalsData = [
   { time: '20:00', heartRate: 74, bloodPressure: 119, oxygenSaturation: 99 },
 ]
 
+// Utility function to clean generated output
+const sanitizeOutput = (text: string) => {
+  return text.replace(/\*\*|[^a-zA-Z0-9.,:;()\s\-]/g, '').trim()
+}
+
 export default function EarlyDetection() {
-  const [selectedPatient, setSelectedPatient] = useState<{ id: number; name: string; age: number; riskScore: number; condition: string } | null>(null)
+  const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null)
+  const [patientDetails, setPatientDetails] = useState<string>('')
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
+  const fetchPatientInsights = async (patient: Patient) => {
+    setIsLoading(true)
+    try {
+      // Initialize Gemini API
+      const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY || '')
+      const model = genAI.getGenerativeModel({ model: "gemini-pro" })
+
+      // Craft a detailed prompt for patient risk assessment
+      const prompt = `Provide a comprehensive medical risk assessment for a patient with the following profile:
+
+      Name: ${patient.name}
+      Age: ${patient.age}
+      Potential Condition: ${patient.condition}
+      Risk Score: ${patient.riskScore}
+
+      Generate a detailed analysis that includes:
+      1. Potential underlying risk factors
+      2. Recommended immediate medical interventions
+      3. Diagnostic tests to consider
+      4. Potential treatment approaches
+      5. Long-term management strategies
+
+      Maintain a professional, medical tone and provide evidence-based recommendations.`
+
+      const result = await model.generateContent(prompt)
+      const response = await result.response
+      const rawDetails = response.text()
+      const cleanDetails = sanitizeOutput(rawDetails)
+
+      setPatientDetails(cleanDetails)
+    } catch (error) {
+      console.error('Error generating patient insights:', error)
+      setPatientDetails('Unable to generate detailed insights. Please try again.')
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   return (
     <div className="flex-1 space-y-4 p-8 pt-6">
@@ -59,7 +115,17 @@ export default function EarlyDetection() {
                       <TableCell>{patient.riskScore.toFixed(2)}</TableCell>
                       <TableCell>{patient.condition}</TableCell>
                       <TableCell>
-                        <Button onClick={() => setSelectedPatient(patient)}>View Details</Button>
+                        <Button 
+                          onClick={() => {
+                            setSelectedPatient(patient)
+                            fetchPatientInsights(patient)
+                          }}
+                          disabled={isLoading}
+                        >
+                          {isLoading && selectedPatient?.id === patient.id 
+                            ? 'Loading...' 
+                            : 'View Details'}
+                        </Button>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -76,10 +142,13 @@ export default function EarlyDetection() {
                 <CardDescription>Risk Score: {selectedPatient.riskScore.toFixed(2)} - Potential Condition: {selectedPatient.condition}</CardDescription>
               </CardHeader>
               <CardContent>
-                <Alert>
-                  <AlertTitle>High Risk Detected</AlertTitle>
+                <Alert variant={selectedPatient.riskScore > 0.5 ? "destructive" : "default"}>
+                  <AlertTitle>
+                    {selectedPatient.riskScore > 0.5 ? "High Risk Detected" : "Moderate Risk"}
+                  </AlertTitle>
                   <AlertDescription>
-                    This patient shows signs of {selectedPatient.condition}. Immediate attention is recommended.
+                    This patient shows signs of {selectedPatient.condition}. 
+                    {selectedPatient.riskScore > 0.5 && " Immediate attention is recommended."}
                   </AlertDescription>
                 </Alert>
                 <div className="mt-6">
@@ -96,6 +165,14 @@ export default function EarlyDetection() {
                     </LineChart>
                   </ResponsiveContainer>
                 </div>
+                {patientDetails && (
+                  <div className="mt-6">
+                    <h3 className="text-lg font-semibold mb-2">AI-Generated Insights</h3>
+                    <p className="whitespace-pre-line bg-black p-4 rounded-md">
+                      {patientDetails}
+                    </p>
+                  </div>
+                )}
               </CardContent>
             </Card>
           ) : (
@@ -110,4 +187,3 @@ export default function EarlyDetection() {
     </div>
   )
 }
-

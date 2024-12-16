@@ -6,7 +6,7 @@ const sidebarItems = [
   { name: 'AI Imaging Analysis', href: '/radiologist/ai-imaging-analysis' },
   { name: 'Image Archive', href: '/radiologist/image-archive' },
   { name: 'Automated Prioritization', href: '/radiologist/auto-prioritization' },
-  { name: 'Peer Review Platform', href: '/radiologist/peer-review-platform' },
+  { name: 'Medical Imaging', href: '/radiologist/medical-imaging' },
 ]
 
 export default function RadiologistLayout({

@@ -6,7 +6,7 @@ import "../globals.css"
 
 
 export const metadata: Metadata = {
-  title: "DocDial - Doctor's Dashboard",
+  title: "HealthSync - Doctor's Dashboard",
   description: "Streamline your medical practice with DocDial",
 }
 

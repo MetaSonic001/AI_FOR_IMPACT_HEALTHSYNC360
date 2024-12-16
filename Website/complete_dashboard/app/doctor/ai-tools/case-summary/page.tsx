@@ -1,66 +1,104 @@
 'use client'
 
 import { useState } from 'react'
+import { Button } from "@/components/ui/button"
+import { Textarea } from "@/components/ui/textarea"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { GoogleGenerativeAI } from "@google/generative-ai"
 
 export default function CaseSummaryGenerator() {
   const [patientInfo, setPatientInfo] = useState('')
   const [summary, setSummary] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // In a real application, you would send the patient info to an AI model for summarization
-    // For this example, we'll use a mock response
-    setSummary(`Case Summary:
-    Patient: John Doe, 45 years old, male
-    Chief Complaint: Persistent cough and fatigue for 2 weeks
-    
-    Key Points:
-    1. Patient reports dry cough, worse at night
-    2. Fatigue interfering with daily activities
-    3. No fever or shortness of breath
-    4. History of seasonal allergies
-    
-    Recent Lab Results:
-    - CBC: Within normal limits
-    - Chest X-ray: No significant findings
-    
-    Recommended Actions:
-    1. Prescribe antihistamines for potential allergy-related symptoms
-    2. Follow-up in 1 week if symptoms persist
-    3. Consider pulmonary function tests if no improvement`)
+
+    // Validate patient info input
+    if (!patientInfo.trim()) {
+      alert('Please enter patient information')
+      return
+    }
+
+    setIsLoading(true)
+
+    try {
+      // Initialize Gemini API
+      const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY || '')
+      const model = genAI.getGenerativeModel({ model: "gemini-pro" })
+
+      // Craft a detailed prompt for case summary generation
+      const prompt = `You are a medical professional assistant. Generate a comprehensive, well-structured case summary based on the following patient information:
+
+      ${patientInfo}
+
+      Please format the summary with the following sections:
+      - Patient Demographics
+      - Chief Complaint
+      - Key Clinical Findings
+      - Relevant Medical History
+      - Diagnostic Considerations
+      - Recommended Next Steps
+
+      Ensure the summary is:
+      - Clear and concise
+      - Professionally formatted
+      - Focused on key medical insights
+      - Providing actionable recommendations`
+
+      const result = await model.generateContent(prompt)
+      const response = await result.response
+      const rawText = response.text()
+
+      // Sanitize and format the generated case summary
+      const cleanText = rawText
+        .replace(/\*\*/g, '') // Remove double asterisks
+        .replace(/\n+/g, '\n') // Collapse multiple newlines
+        .trim() // Remove leading/trailing whitespace
+
+      setSummary(cleanText)
+    } catch (error) {
+      console.error('Error generating case summary:', error)
+      setSummary('Sorry, there was an error generating the case summary. Please try again.')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">Case Summary Generator</h1>
-      <form onSubmit={handleSubmit} className="mb-4">
-        <div className="mb-4">
-          <label htmlFor="patientInfo" className="block text-sm font-medium text-gray-700">
-            Patient Information
-          </label>
-          <textarea
-            id="patientInfo"
-            rows={6}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-            value={patientInfo}
-            onChange={(e) => setPatientInfo(e.target.value)}
-            placeholder="Enter patient information, symptoms, and relevant medical history..."
-          ></textarea>
-        </div>
-        <button
-          type="submit"
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-        >
-          Generate Summary
-        </button>
-      </form>
-      {summary && (
-        <div className="mt-4 p-4 rounded shadow">
-          <h2 className="text-lg font-semibold mb-2">Generated Case Summary:</h2>
-          <p className="whitespace-pre-line">{summary}</p>
-        </div>
-      )}
+    <div className="container mx-auto max-w-xl py-8">
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-2xl">Case Summary Generator</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <Textarea 
+                placeholder="Enter patient information, symptoms, and relevant medical history..."
+                value={patientInfo}
+                onChange={(e) => setPatientInfo(e.target.value)}
+                className="w-full"
+                rows={6}
+              />
+            </div>
+            <Button 
+              type="submit" 
+              disabled={isLoading}
+              className="w-full"
+            >
+              {isLoading ? 'Generating Summary...' : 'Generate Summary'}
+            </Button>
+          </form>
+
+          {summary && (
+            <div className="mt-4 p-4 bg-black rounded-md">
+              <h2 className="text-lg font-semibold mb-2">Generated Case Summary:</h2>
+              <p className="whitespace-pre-line">{summary}</p>
+            </div>
+          )}
+        </CardContent>
+      </Card>
     </div>
   )
 }
-

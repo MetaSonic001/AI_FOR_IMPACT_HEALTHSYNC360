@@ -1,93 +1,158 @@
 "use client"
 
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { useState } from 'react'
+import { Upload, Info } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Info } from 'lucide-react'
-import { useState } from 'react'
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 
-export default function MedicalImaging() {
+// Define the type for analysis result
+type AnalysisResult = {
+  diagnosis: string;
+  confidence: string;
+  recommendations: string[];
+};
+
+export default function MedicalImagingAnalysis() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
-  type AnalysisResult = {
-    diagnosis: string;
-    confidence: number;
-    recommendations: string[];
-  };
-
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null)
 
-
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = (e: ProgressEvent<FileReader>) => {
-        if (e.target) {
+        if (e.target?.result) {
           setSelectedImage(e.target.result as string);
+          setError(null);
         }
       };
       reader.readAsDataURL(file);
     }
   }
 
-  const analyzeImage = () => {
-    // Placeholder for Google Cloud Vision API call
-    setAnalysisResult({
-      diagnosis: "Potential pneumonia detected",
-      confidence: 0.89,
-      recommendations: [
-        "Consult with a radiologist",
-        "Order additional tests",
-        "Monitor patient closely"
-      ]
-    })
+  const analyzeImage = async () => {
+    if (!selectedImage) {
+      setError("Please upload an image first.");
+      return;
+    }
+
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch('/api/analyze-image', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          image: selectedImage
+        })
+      });
+
+      if (!response.ok) {
+        const errorBody = await response.text();
+        throw new Error(`Analysis failed: ${errorBody}`);
+      }
+
+      const data = await response.json();
+      
+      // Parse the analysis into a structured format
+      const parseAnalysis = (text: string) => {
+        const lines = text.split('\n').filter(line => line.trim().length > 0);
+        return {
+          diagnosis: lines[0] || "Medical Image Analysis",
+          confidence: "Based on AI medical image analysis",
+          recommendations: lines.slice(1, 6)
+        };
+      };
+
+      setAnalysisResult(parseAnalysis(data.analysis));
+    } catch (err) {
+      console.error("Image analysis error:", err);
+      setError(`Failed to analyze the image: ${err instanceof Error ? err.message : 'Unknown error'}`);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
-    <div className="flex-1 space-y-4 p-8 pt-6">
-      <h2 className="text-3xl font-bold tracking-tight">Medical Imaging Analysis</h2>
-      <Tabs defaultValue="upload">
-        <TabsList>
+    <div className="container mx-auto p-4">
+      <Tabs defaultValue="upload" className="w-full">
+        <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="upload">Upload & Analyze</TabsTrigger>
           <TabsTrigger value="history">Analysis History</TabsTrigger>
         </TabsList>
+
         <TabsContent value="upload">
           <Card>
             <CardHeader>
-              <CardTitle>Upload Medical Image</CardTitle>
+              <CardTitle>Medical Imaging Analysis</CardTitle>
               <CardDescription>Upload an X-ray, MRI, or CT scan for AI-powered analysis</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
-                <Input type="file" accept="image/*" onChange={handleImageUpload} />
+              <div className="grid w-full max-w-sm items-center gap-4">
+                <Input 
+                  type="file" 
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  className="cursor-pointer"
+                />
+                {error && (
+                  <Alert variant="destructive">
+                    <Info className="h-4 w-4" />
+                    <AlertTitle>Error</AlertTitle>
+                    <AlertDescription>{error}</AlertDescription>
+                  </Alert>
+                )}
                 {selectedImage && (
-                  <div>
-                    <img src={selectedImage} alt="Uploaded medical image" className="max-w-full h-auto" />
-                    <Button onClick={analyzeImage} className="mt-2">Analyze Image</Button>
+                  <div className="mt-4">
+                    <img 
+                      src={selectedImage} 
+                      alt="Selected medical image" 
+                      className="max-w-full h-auto rounded-lg mb-4"
+                    />
+                    <Button 
+                      onClick={analyzeImage} 
+                      disabled={isLoading}
+                      className="w-full"
+                    >
+                      {isLoading ? "Analyzing..." : "Analyze Image"}
+                    </Button>
                   </div>
                 )}
+
                 {analysisResult && (
-                  <Alert>
-                    <Info className="h-4 w-4" />
-                    <AlertTitle>Analysis Result</AlertTitle>
-                    <AlertDescription>
-                      <p>Diagnosis: {analysisResult.diagnosis}</p>
-                      <p>Confidence: {(analysisResult.confidence * 100).toFixed(2)}%</p>
-                      <p>Recommendations:</p>
-                      <ul>
-                        {analysisResult.recommendations.map((rec, index) => (
-                          <li key={index}>{rec}</li>
-                        ))}
-                      </ul>
-                    </AlertDescription>
-                  </Alert>
+                  <Card className="mt-4 w-full">
+                    <CardHeader>
+                      <CardTitle>Analysis Result</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-2">
+                        <p><strong>Diagnosis:</strong> {analysisResult.diagnosis}</p>
+                        <p><strong>Confidence:</strong> {analysisResult.confidence}</p>
+                        <div>
+                          <strong>Recommendations:</strong>
+                          <ul className="list-disc pl-5 mt-2">
+                            {analysisResult.recommendations.map((rec, index) => (
+                              <li key={index}>{rec}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
                 )}
               </div>
             </CardContent>
           </Card>
         </TabsContent>
+
         <TabsContent value="history">
           <Card>
             <CardHeader>
@@ -95,7 +160,7 @@ export default function MedicalImaging() {
               <CardDescription>View past medical image analyses</CardDescription>
             </CardHeader>
             <CardContent>
-              {/* Add a table or list of past analyses here */}
+              <p>No previous analyses found.</p>
             </CardContent>
           </Card>
         </TabsContent>
@@ -103,4 +168,3 @@ export default function MedicalImaging() {
     </div>
   )
 }
-

@@ -39,7 +39,7 @@ export default function ImageArchive() {
       />
       <table className="w-full">
         <thead>
-          <tr className="bg-gray-200">
+          <tr className="bg-black">
             <th className="p-2 text-left">Patient Name</th>
             <th className="p-2 text-left">Image Type</th>
             <th className="p-2 text-left">Date</th>
