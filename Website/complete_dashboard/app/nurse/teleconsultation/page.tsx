@@ -65,7 +65,7 @@ Please note: This is an initial assessment. Final diagnosis and treatment plan s
         </button>
       </form>
       {analysis && (
-        <div className="mt-4 p-4 bg-white rounded shadow">
+        <div className="mt-4 p-4 rounded shadow">
           <h2 className="text-lg font-semibold mb-2">Preliminary Analysis:</h2>
           <pre className="whitespace-pre-wrap">{analysis}</pre>
         </div>

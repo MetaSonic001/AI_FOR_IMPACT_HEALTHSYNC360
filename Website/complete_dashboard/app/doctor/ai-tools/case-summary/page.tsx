@@ -55,7 +55,7 @@ export default function CaseSummaryGenerator() {
         </button>
       </form>
       {summary && (
-        <div className="mt-4 p-4 bg-white rounded shadow">
+        <div className="mt-4 p-4 rounded shadow">
           <h2 className="text-lg font-semibold mb-2">Generated Case Summary:</h2>
           <p className="whitespace-pre-line">{summary}</p>
         </div>

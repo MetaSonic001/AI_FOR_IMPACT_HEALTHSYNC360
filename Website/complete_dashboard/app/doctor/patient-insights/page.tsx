@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
+import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 
 const mockData = [
   { date: '2023-01-01', glucose: 120, bloodPressure: 130 },
@@ -49,7 +49,7 @@ export default function PatientInsights() {
       <h1 className="text-2xl font-bold mb-4">Patient Insights Dashboard</h1>
       <form onSubmit={handleSubmit} className="mb-4">
         <div className="mb-4">
-          <label htmlFor="patientId" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="patientId" className="block text-sm font-medium bg-black text-white">
             Patient ID
           </label>
           <input
@@ -69,7 +69,7 @@ export default function PatientInsights() {
         </button>
       </form>
       {insights && (
-        <div className="mt-4 p-4 bg-white rounded shadow">
+        <div className="mt-4 p-4 rounded shadow">
           <h2 className="text-lg font-semibold mb-2">Patient Insights:</h2>
           <p className="whitespace-pre-line">{insights}</p>
           <div className="mt-4">

@@ -60,7 +60,7 @@ export default function ClinicalDecisionSupport() {
         </button>
       </form>
       {recommendation && (
-        <div className="mt-4 p-4 bg-white rounded shadow">
+        <div className="mt-4 p-4 rounded shadow">
           <h2 className="text-lg font-semibold mb-2">AI-Generated Recommendation:</h2>
           <p className="whitespace-pre-line">{recommendation}</p>
         </div>
