@@ -204,7 +204,7 @@ export default function LandingPage() {
         </div>
         <div className="container mx-auto max-w-md relative z-20">
           <h2 className="text-3xl font-semibold text-center mb-8 text-[#FF715B]">Contact Us</h2>
-          <Card className="bg-white/70 backdrop-blur-md border-white/50 shadow-lg">
+          <Card className="bg-white/10 backdrop-blur-md border-white/50 shadow-lg">
             <CardContent>
               <form onSubmit={handleContactSubmit} className="space-y-4">
                 <div>
@@ -213,7 +213,7 @@ export default function LandingPage() {
                     id="name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="bg-white/50 border-gray-300 text-gray-800"
+                    className="bg-white/30 border-gray-300 text-gray-800"
                     required
                   />
                 </div>
@@ -224,7 +224,7 @@ export default function LandingPage() {
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="bg-white/50 border-gray-300 text-gray-800"
+                    className="bg-white/30 border-gray-300 text-gray-800"
                     required
                   />
                 </div>
@@ -234,7 +234,7 @@ export default function LandingPage() {
                     id="message"
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    className="bg-white/50 border-gray-300 text-gray-800"
+                    className="bg-white/30 border-gray-300 text-gray-800"
                     required
                   />
                 </div>
