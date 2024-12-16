@@ -1,190 +1,11 @@
 "use client"
-import React, { useState, useEffect, useRef } from 'react'
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
-import 'leaflet/dist/leaflet.css'
-import L from 'leaflet'
-import { Wrapper, Status } from "@googlemaps/react-wrapper"
-
-// Shadcn UI Components
+import React, { useState, useEffect } from 'react'
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-
-import { 
-  MapPin, 
-  Ambulance, 
-  CheckCircle, 
-  AlertTriangle, 
-  Clock, 
-  Radio, 
-  Hospital, 
-  Cross, 
-  Siren 
-} from "lucide-react"
-
-// Comprehensive Type Definitions
-interface Coordinates {
-  lat: number;
-  lng: number;
-}
-
-interface Responder {
-  name: string;
-  role: string;
-  contactNumber?: string;
-  specialization?: string;
-}
-
-type EmergencySeverity = 'critical' | 'high' | 'moderate' | 'low';
-type EmergencyStatus = 'Pending' | 'In Progress' | 'Resolved';
-
-interface Emergency {
-  id: number;
-  type: string;
-  location: string;
-  status: EmergencyStatus;
-  eta: string;
-  severity: EmergencySeverity;
-  responders: Responder[];
-  coordinates: Coordinates;
-  description?: string;
-}
-
-interface HospitalLocation {
-  id: number;
-  name: string;
-  address: string;
-  coordinates: Coordinates;
-  emergencyCapacity: number;
-}
-
-// Map Component
-const GoogleMapsComponent: React.FC<{
-  center: Coordinates, 
-  emergencies: Emergency[], 
-  hospitals: HospitalLocation[]
-}> = ({ center, emergencies, hospitals }) => {
-  const ref = useRef<HTMLDivElement>(null)
-  const [map, setMap] = useState<google.maps.Map>()
-
-  useEffect(() => {
-    if (ref.current && !map) {
-      const newMap = new window.google.maps.Map(ref.current, {
-        center: center,
-        zoom: 12,
-        styles: [
-          {
-            elementType: "geometry",
-            stylers: [{ color: "#242f3e" }]
-          },
-          {
-            elementType: "labels.text.stroke",
-            stylers: [{ color: "#242f3e" }]
-          },
-          {
-            elementType: "labels.text.fill",
-            stylers: [{ color: "#746855" }]
-          }
-        ]
-      })
-      setMap(newMap)
-    }
-  }, [ref, map, center])
-
-  // Add markers for emergencies and hospitals
-  useEffect(() => {
-    if (!map) return;
-
-    // Clear existing markers
-    const markers: google.maps.Marker[] = []
-
-    // Add emergency markers
-    emergencies.forEach(emergency => {
-      const markerIcon = emergency.status !== 'Resolved' 
-        ? '/ambulance-emergency.png' 
-        : '/ambulance-resolved.png'
-
-      const marker = new google.maps.Marker({
-        position: emergency.coordinates,
-        map: map,
-        title: emergency.type,
-        icon: {
-          url: markerIcon,
-          scaledSize: new google.maps.Size(40, 40)
-        }
-      })
-
-      // Add info window
-      const infoWindow = new google.maps.InfoWindow({
-        content: `
-          <div style="color: black;">
-            <h3>${emergency.type}</h3>
-            <p>Location: ${emergency.location}</p>
-            <p>Status: ${emergency.status}</p>
-            <p>Severity: ${emergency.severity}</p>
-          </div>
-        `
-      })
-
-      marker.addListener('click', () => {
-        infoWindow.open(map, marker)
-      })
-
-      markers.push(marker)
-    })
-
-    // Add hospital markers
-    hospitals.forEach(hospital => {
-      const marker = new google.maps.Marker({
-        position: hospital.coordinates,
-        map: map,
-        title: hospital.name,
-        icon: {
-          url: '/hospital-icon.png',
-          scaledSize: new google.maps.Size(40, 40)
-        }
-      })
-
-      // Add info window
-      const infoWindow = new google.maps.InfoWindow({
-        content: `
-          <div style="color: black;">
-            <h3>${hospital.name}</h3>
-            <p>Address: ${hospital.address}</p>
-            <p>Emergency Capacity: ${hospital.emergencyCapacity}</p>
-          </div>
-        `
-      })
-
-      marker.addListener('click', () => {
-        infoWindow.open(map, marker)
-      })
-
-      markers.push(marker)
-    })
-
-    // Cleanup function
-    return () => {
-      markers.forEach(marker => marker.setMap(null))
-    }
-  }, [map, emergencies, hospitals])
-
-  return <div ref={ref} style={{ height: '500px', width: '100%' }} />
-}
-
-// Render function for Google Maps
-const MapRender: React.FC<{
-  status: Status, 
-  center: Coordinates, 
-  emergencies: Emergency[], 
-  hospitals: HospitalLocation[]
-}> = ({ status, center, emergencies, hospitals }) => {
-  if (status === Status.LOADING) return <p>Loading...</p>
-  if (status === Status.FAILURE) return <p>Error loading map</p>
-  return <GoogleMapsComponent center={center} emergencies={emergencies} hospitals={hospitals} />
-}
+import { MapPin, Ambulance, CheckCircle, AlertTriangle, Clock, Radio } from "lucide-react"
 
 // Simulating real-time data updates
 const generateRealisticEmergencies = () => [
@@ -192,7 +13,7 @@ const generateRealisticEmergencies = () => [
     id: 1, 
     type: "Cardiac Arrest", 
     location: "Room 302, Central Hospital", 
-    status: "In Progress" as 'In Progress', 
+    status: "In Progress", 
     eta: "2 min", 
     severity: "high" as 'high',
     responders: [
@@ -205,7 +26,7 @@ const generateRealisticEmergencies = () => [
     id: 2, 
     type: "Severe Trauma", 
     location: "ER Bay 1, Metropolitan Hospital", 
-    status: "Pending" as 'Pending', 
+    status: "Pending", 
     eta: "5 min", 
     severity: "critical" as 'critical',
     responders: [
@@ -217,7 +38,7 @@ const generateRealisticEmergencies = () => [
     id: 3, 
     type: "Stroke", 
     location: "ICU, Northern Medical Center", 
-    status: "Resolved" as 'Resolved', 
+    status: "Resolved", 
     eta: "-", 
     severity: "moderate" as 'moderate',
     responders: [],
@@ -247,7 +68,7 @@ export default function EmergencyResponseDashboard() {
     id: number;
     type: string;
     location: string;
-    status: EmergencyStatus;
+    status: string;
     eta: string;
     severity: 'critical' | 'high' | 'moderate';
     responders: Responder[];
@@ -413,30 +234,17 @@ export default function EmergencyResponseDashboard() {
       </div>
 
       {/* Placeholder for actual Google Maps integration */}
-      {/* Google Maps Integration */}
-      <Card className="bg-gray-900">
-          <CardHeader>
-            <CardTitle className="flex items-center">
-              <MapPin className="mr-2" /> Emergency Response Map
-            </CardTitle>
-            <CardDescription className="text-gray-400">
-              Real-time tracking of ambulances and emergency locations in Mumbai
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Wrapper 
-              apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ''} 
-              render={(status) => (
-                <MapRender 
-                  status={status} 
-                  center={{ lat: 19.0760, lng: 72.8777 }} // Example center coordinates for Mumbai
-                  emergencies={activeEmergencies} 
-                  hospitals={[]} // Replace with actual hospital data
-                />
-              )}
-            />
-          </CardContent>
-        </Card>
+      <Card>
+        <CardHeader>
+          <CardTitle>Emergency Response Map</CardTitle>
+          <CardDescription>Real-time tracking of ambulances and emergency personnel</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="bg-black h-[400px] flex items-center justify-center">
+            <p>Google Maps Integration Placeholder</p>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   )
 }

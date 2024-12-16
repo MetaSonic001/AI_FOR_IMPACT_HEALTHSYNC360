@@ -78,7 +78,7 @@ export default function SettingsProfilePage() {
           <FormField
             control={form.control}
             name="username"
-            render={({ field }) => (
+            render={({ field }: { field: ReturnType<typeof form.control['register']> }) => (
               <FormItem>
                 <FormLabel>Username</FormLabel>
                 <FormControl>
@@ -95,7 +95,7 @@ export default function SettingsProfilePage() {
           <FormField
             control={form.control}
             name="email"
-            render={({ field }) => (
+            render={({ field }: { field: ReturnType<typeof form.control['register']> }) => (
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
@@ -111,7 +111,7 @@ export default function SettingsProfilePage() {
           <FormField
             control={form.control}
             name="bio"
-            render={({ field }) => (
+            render={({ field }: { field: ReturnType<typeof form.control['register']> }) => (
               <FormItem>
                 <FormLabel>Bio</FormLabel>
                 <FormControl>
