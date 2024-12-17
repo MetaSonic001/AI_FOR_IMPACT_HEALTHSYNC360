@@ -132,7 +132,7 @@ export default function BillingAndClaimsManagement() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white p-8">
+    <div className="min-h-screen bg-black text-white p-4 sm:p-8">
       <Card className="bg-gray-900 border-gray-700">
         <CardHeader>
           <CardTitle className="flex items-center space-x-4">
@@ -142,7 +142,7 @@ export default function BillingAndClaimsManagement() {
         </CardHeader>
         <CardContent>
           {/* Search and Filter Section */}
-          <div className="flex space-x-4 mb-6">
+          <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mb-6">
             <div className="flex-grow relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
               <Input 
@@ -184,58 +184,60 @@ export default function BillingAndClaimsManagement() {
           </div>
 
           {/* Claims Table */}
-          <Table>
-            <TableHeader>
-              <TableRow className="bg-gray-800 hover:bg-gray-700">
-                <TableHead>Patient Name</TableHead>
-                <TableHead>Patient ID</TableHead>
-                <TableHead>Service</TableHead>
-                <TableHead>Amount</TableHead>
-                <TableHead>Insurance</TableHead>
-                <TableHead>Claim Date</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredClaims.map(claim => (
-                <TableRow key={claim.id} className="bg-gray-900 hover:bg-gray-800">
-                  <TableCell>{claim.patientName}</TableCell>
-                  <TableCell>{claim.patientId}</TableCell>
-                  <TableCell>{claim.service}</TableCell>
-                  <TableCell>${claim.amount.toFixed(2)}</TableCell>
-                  <TableCell>{claim.insuranceProvider || 'N/A'}</TableCell>
-                  <TableCell>{claim.claimDate}</TableCell>
-                  <TableCell>
-                    <Badge variant={getStatusBadgeVariant(claim.status)}>
-                      {claim.status}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <Select 
-                      value={claim.status}
-                      onValueChange={(value) => handleStatusChange(claim.id, value as Claim['status'])}
-                    >
-                      <SelectTrigger className="w-[120px] bg-gray-800 border-gray-700">
-                        <SelectValue placeholder="Status" />
-                      </SelectTrigger>
-                      <SelectContent className="bg-gray-900 border-gray-700">
-                        <SelectItem value="Pending" className="hover:bg-gray-800">
-                          <Clock className="mr-2 h-4 w-4" /> Pending
-                        </SelectItem>
-                        <SelectItem value="Approved" className="hover:bg-gray-800">
-                          <Check className="mr-2 h-4 w-4 text-green-500" /> Approved
-                        </SelectItem>
-                        <SelectItem value="Rejected" className="hover:bg-gray-800">
-                          <X className="mr-2 h-4 w-4 text-red-500" /> Rejected
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </TableCell>
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow className="bg-gray-800 hover:bg-gray-700">
+                  <TableHead>Patient Name</TableHead>
+                  <TableHead>Patient ID</TableHead>
+                  <TableHead>Service</TableHead>
+                  <TableHead>Amount</TableHead>
+                  <TableHead>Insurance</TableHead>
+                  <TableHead>Claim Date</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Actions</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {filteredClaims.map(claim => (
+                  <TableRow key={claim.id} className="bg-gray-900 hover:bg-gray-800">
+                    <TableCell>{claim.patientName}</TableCell>
+                    <TableCell>{claim.patientId}</TableCell>
+                    <TableCell>{claim.service}</TableCell>
+                    <TableCell>${claim.amount.toFixed(2)}</TableCell>
+                    <TableCell>{claim.insuranceProvider || 'N/A'}</TableCell>
+                    <TableCell>{claim.claimDate}</TableCell>
+                    <TableCell>
+                      <Badge variant={getStatusBadgeVariant(claim.status)}>
+                        {claim.status}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <Select 
+                        value={claim.status}
+                        onValueChange={(value) => handleStatusChange(claim.id, value as Claim['status'])}
+                      >
+                        <SelectTrigger className="w-[120px] bg-gray-800 border-gray-700">
+                          <SelectValue placeholder="Status" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-gray-900 border-gray-700">
+                          <SelectItem value="Pending" className="hover:bg-gray-800">
+                            <Clock className="mr-2 h-4 w-4" /> Pending
+                          </SelectItem>
+                          <SelectItem value="Approved" className="hover:bg-gray-800">
+                            <Check className="mr-2 h-4 w-4 text-green-500" /> Approved
+                          </SelectItem>
+                          <SelectItem value="Rejected" className="hover:bg-gray-800">
+                            <X className="mr-2 h-4 w-4 text-red-500" /> Rejected
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         </CardContent>
       </Card>
     </div>

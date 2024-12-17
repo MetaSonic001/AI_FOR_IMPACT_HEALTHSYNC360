@@ -26,15 +26,17 @@ export default function MedicationManagement() {
   }
 
   return (
-    <div className="flex-1 space-y-4 p-8 pt-6">
+    <div className="flex-1 w-full overflow-x-hidden p-8 pt-6">
       <h2 className="text-3xl font-bold tracking-tight">Medication Management</h2>
-      <Card>
+      
+      {/* Current Inventory Section */}
+      <Card className="w-full">
         <CardHeader>
           <CardTitle>Current Inventory</CardTitle>
           <CardDescription>Overview of medication stock levels</CardDescription>
         </CardHeader>
         <CardContent>
-          <Table>
+          <Table className="w-full">
             <TableHeader>
               <TableRow>
                 <TableHead>Medication Name</TableHead>
@@ -54,32 +56,39 @@ export default function MedicationManagement() {
           </Table>
         </CardContent>
       </Card>
-      <Card>
+
+      {/* Add New Medication Section */}
+      <Card className="w-full mt-6">
         <CardHeader>
           <CardTitle>Add New Medication</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex space-x-2">
+          <div className="flex flex-wrap gap-4 w-full">
             <Input
               placeholder="Medication Name"
               value={newMedication.name}
               onChange={(e) => setNewMedication({ ...newMedication, name: e.target.value })}
+              className="w-full sm:w-[300px]"
             />
             <Input
               type="number"
               placeholder="Quantity"
               value={newMedication.quantity}
               onChange={(e) => setNewMedication({ ...newMedication, quantity: e.target.value })}
+              className="w-full sm:w-[150px]"
             />
             <Input
               type="date"
               value={newMedication.expirationDate}
               onChange={(e) => setNewMedication({ ...newMedication, expirationDate: e.target.value })}
+              className="w-full sm:w-[200px]"
             />
-            <Button onClick={handleAddMedication}>Add</Button>
+            <Button onClick={handleAddMedication} className="w-full sm:w-auto">Add</Button>
           </div>
         </CardContent>
       </Card>
+
+      {/* Alert Section */}
       <Alert>
         <AlertTitle>Low Stock Alert</AlertTitle>
         <AlertDescription>
@@ -89,4 +98,3 @@ export default function MedicationManagement() {
     </div>
   )
 }
-
