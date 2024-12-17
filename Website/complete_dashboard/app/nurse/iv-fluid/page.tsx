@@ -57,11 +57,11 @@ export default function IVFluidMonitor() {
   const getStatusColor = (status: 'Normal' | 'Low' | 'Critical') => {
     switch (status) {
       case 'Normal':
-        return 'bg-green-100'
+        return 'bg-green-900'
       case 'Low':
-        return 'bg-yellow-100'
+        return 'bg-yellow-400 text-black'
       case 'Critical':
-        return 'bg-red-100'
+        return 'bg-orange-600'
     }
   }
 
@@ -70,7 +70,7 @@ export default function IVFluidMonitor() {
       <h1 className="text-2xl font-bold mb-4">AI-Powered IV Fluid Monitor</h1>
       <table className="w-full">
         <thead>
-          <tr className="bg-gray-200">
+          <tr className="bg-gray-800">
             <th className="p-2 text-left">Patient Name</th>
             <th className="p-2 text-left">Fluid Type</th>
             <th className="p-2 text-left">Remaining Volume</th>
@@ -86,7 +86,7 @@ export default function IVFluidMonitor() {
               <td className="p-2">{fluid.fluidType}</td>
               <td className="p-2">
                 {fluid.remainingVolume.toFixed(0)} / {fluid.totalVolume} mL
-                <div className="w-full bg-gray-200 rounded-full h-2.5">
+                <div className="w-full bg-gray-800 rounded-full h-2.5">
                   <div
                     className="bg-blue-600 h-2.5 rounded-full"
                     style={{ width: `${(fluid.remainingVolume / fluid.totalVolume) * 100}%` }}
@@ -96,18 +96,19 @@ export default function IVFluidMonitor() {
               <td className="p-2">{fluid.flowRate}</td>
               <td className="p-2">{fluid.status}</td>
               <td className="p-2">
-                <button
-                  onClick={() => handleAdjustFlowRate(fluid.id, -10)}
-                  className="px-2 py-1 bg-red-500 text-white rounded mr-2"
-                >
-                  -10
-                </button>
-                <button
-                  onClick={() => handleAdjustFlowRate(fluid.id, 10)}
-                  className="px-2 py-1 bg-green-500 text-white rounded"
-                >
-                  +10
-                </button>
+              <button
+              onClick={() => handleAdjustFlowRate(fluid.id, -10)}
+              className="px-2 py-1 bg-red-600 text-white rounded mr-2 border border-black"
+            >
+              -10
+            </button>
+            <button
+              onClick={() => handleAdjustFlowRate(fluid.id, 10)}
+              className="px-2 py-1 bg-green-600 text-white rounded border border-black"
+            >
+              +10
+            </button>
+
               </td>
             </tr>
           ))}

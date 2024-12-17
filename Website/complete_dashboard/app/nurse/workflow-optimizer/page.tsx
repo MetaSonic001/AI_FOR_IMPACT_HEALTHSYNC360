@@ -104,10 +104,10 @@ export default function WorkflowOptimizer() {
             key={task.id}
             className={`p-2 rounded ${
               task.priority === 'high'
-                ? 'bg-red-100'
+                ? 'bg-red-600'
                 : task.priority === 'medium'
-                ? 'bg-yellow-100'
-                : 'bg-green-100'
+                ? 'bg-yellow-600'
+                : 'bg-green-600'
             } ${task.completed ? 'opacity-50' : ''}`}
           >
             <div className="flex items-center">

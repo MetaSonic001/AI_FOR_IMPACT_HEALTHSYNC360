@@ -46,9 +46,9 @@ export default function ShiftFatigueMonitor() {
   }
 
   const getFatigueColor = (level: number) => {
-    if (level <= 3) return 'bg-green-100'
-    if (level <= 6) return 'bg-yellow-100'
-    return 'bg-red-100'
+    if (level <= 3) return 'bg-green-600'
+    if (level <= 6) return 'bg-yellow-600'
+    return 'bg-red-600'
   }
 
   return (
@@ -57,7 +57,7 @@ export default function ShiftFatigueMonitor() {
       <p className="mb-4">Current Time: {currentTime.toLocaleTimeString()}</p>
       <table className="w-full">
         <thead>
-          <tr className="bg-gray-200">
+          <tr className="bg-gray-800">
             <th className="p-2 text-left">Name</th>
             <th className="p-2 text-left">Shift Start</th>
             <th className="p-2 text-left">Fatigue Level</th>
@@ -71,9 +71,9 @@ export default function ShiftFatigueMonitor() {
               <td className="p-2">{nurse.name}</td>
               <td className="p-2">{nurse.shiftStart}</td>
               <td className="p-2">
-                <div className="w-full bg-gray-200 rounded-full h-2.5">
+                <div className="w-full bg-gray-800 rounded-full h-2.5">
                   <div
-                    className="bg-blue-600 h-2.5 rounded-full"
+                    className="bg-blue-700 h-2.5 rounded-full"
                     style={{ width: `${nurse.fatigueLevel * 10}%` }}
                   ></div>
                 </div>
@@ -83,7 +83,7 @@ export default function ShiftFatigueMonitor() {
               <td className="p-2">
                 <button
                   onClick={() => handleBreak(nurse.id)}
-                  className="px-4 py-2 bg-blue-500 text-white rounded"
+                  className="px-4 py-2 bg-blue-900 text-white rounded"
                 >
                   Take Break
                 </button>

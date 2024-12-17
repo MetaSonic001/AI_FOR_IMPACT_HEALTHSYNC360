@@ -24,9 +24,9 @@ export default function NurseDashboard() {
     { name: 'Workflow Optimizer', icon: Calendar, href: '/nurse/workflow-optimizer' },
     { name: 'Rounding Assistant', icon: Clipboard, href: '/nurse/rounding-assistant' },
     { name: 'Wound Care Monitor', icon: Thermometer, href: '/nurse/wound-care' },
-    { name: 'Shift Fatigue Monitor', icon: Moon, href: '/nurse/shift-fatigue' },
+    // { name: 'Shift Fatigue Monitor', icon: Moon, href: '/nurse/shift-fatigue' },
     { name: 'IV Fluid Monitor', icon: Droplet, href: '/nurse/iv-fluid' },
-    { name: 'Medication Administration Assistant', icon: Pill, href: '/nurse/medication-assistant' },
+    { name: 'Medication Assistant', icon: Pill, href: '/nurse/medication-assistant' },
     { name: 'Teleconsultation', icon: Phone, href: '/nurse/teleconsultation' },
   ]
 

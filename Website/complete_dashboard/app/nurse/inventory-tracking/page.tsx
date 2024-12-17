@@ -82,7 +82,7 @@ export default function InventoryTracking() {
       </form>
       <table className="w-full">
         <thead>
-          <tr className="bg-gray-200">
+          <tr className="bg-black-700">
             <th className="p-2 text-left">Name</th>
             <th className="p-2 text-left">Quantity</th>
             <th className="p-2 text-left">Expiration Date</th>
@@ -91,7 +91,7 @@ export default function InventoryTracking() {
         </thead>
         <tbody>
           {inventory.map(item => (
-            <tr key={item.id} className={item.lowStock ? 'bg-red-100' : ''}>
+            <tr key={item.id} className={item.lowStock ? 'bg-red-800' : ''}>
               <td className="p-2">{item.name}</td>
               <td className="p-2">{item.quantity}</td>
               <td className="p-2">{item.expirationDate}</td>

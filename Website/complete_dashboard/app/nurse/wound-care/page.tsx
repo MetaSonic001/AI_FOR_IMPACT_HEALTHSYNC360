@@ -78,7 +78,7 @@ export default function WoundCareMonitor() {
       </form>
       <table className="w-full">
         <thead>
-          <tr className="bg-gray-200">
+          <tr className="bg-gray-800">
             <th className="p-2 text-left">Patient Name</th>
             <th className="p-2 text-left">Location</th>
             <th className="p-2 text-left">Size (cm)</th>
@@ -90,8 +90,8 @@ export default function WoundCareMonitor() {
         <tbody>
           {wounds.map(wound => (
             <tr key={wound.id} className={
-              wound.status === 'Improving' ? 'bg-green-100' :
-              wound.status === 'Worsening' ? 'bg-red-100' :
+              wound.status === 'Improving' ? 'bg-green-600' :
+              wound.status === 'Worsening' ? 'bg-red-600' :
               ''
             }>
               <td className="p-2">{wound.patientName}</td>
