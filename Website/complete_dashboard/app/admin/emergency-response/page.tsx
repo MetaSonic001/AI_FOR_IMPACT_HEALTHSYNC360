@@ -290,8 +290,8 @@ export default function EmergencyResponseDashboard() {
   return (
     <div className="flex-1 space-y-4 p-8 pt-6 bg-black">
       <div className="flex justify-between items-center">
-        <h2 className="text-3xl font-bold tracking-tight text-gray-800">Emergency Response Center</h2>
-        <div className="flex items-center space-x-2 text-gray-600">
+        <h2 className="text-3xl font-bold tracking-tight text-white-800">Emergency Response Center</h2>
+        <div className="flex items-center space-x-2 text-white-400">
           <Clock className="w-5 h-5" />
           <span>Elapsed Time: {timeElapsed} sec</span>
         </div>
