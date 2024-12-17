@@ -173,6 +173,10 @@ export default function LandingPage() {
             </p>
             <p className="text-gray-600">
               We envision a future where technology seamlessly integrates with healthcare, making it more efficient, accurate, and accessible for all.
+              Solutions is at the forefront of healthcare innovation, dedicated to improving patient outcomes and streamlining hospital operations through advanced technology.
+
+              Our team of experienced healthcare professionals and tech experts work tirelessly to develop cutting-edge solutions that address the most pressing challenges in modern healthcare.
+              
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
