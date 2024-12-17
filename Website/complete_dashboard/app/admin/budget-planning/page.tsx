@@ -9,6 +9,13 @@ import { CartesianGrid, Cell, Legend, Line, LineChart, Pie, PieChart, Responsive
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8']
 
+// Helper function to format numbers into 'k' format
+const formatNumber = (num: number): string => {
+  if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`
+  if (num >= 1000) return `${(num / 1000).toFixed(1)}k`
+  return `${num}` // Ensure the return type is always string
+}
+
 type BudgetItem = {
   category: string
   amount: number
@@ -49,65 +56,69 @@ export default function BudgetPlanning() {
   const totalBudget = budgetItems.reduce((sum, item) => sum + item.amount, 0)
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-3xl font-bold">AI-Driven Budget Planning</h1>
+    <div className="w-full min-h-screen bg-[rgb(24,24,27)] text-white p-6 md:p-8 lg:p-10 grid grid-cols-1 md:grid-cols-2 gap-8">
+      {/* Header */}
+      <header className="w-full text-center mb-8 md:col-span-2">
+        <h1 className="text-3xl sm:text-4xl font-bold">AI-Driven Budget Planning</h1>
+      </header>
 
-      <div className="grid gap-6 md:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle>Current Budget Allocation</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <PieChart>
-                <Pie
-                  data={budgetItems}
-                  dataKey="amount"
-                  nameKey="category"
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={80}
-                  label
-                >
-                  {budgetItems.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                  ))}
-                </Pie>
-                <Tooltip />
-                <Legend />
-              </PieChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>6-Month Financial Forecast</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={forecastData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="month" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Line type="monotone" dataKey="revenue" stroke="#8884d8" />
-                <Line type="monotone" dataKey="expenses" stroke="#82ca9d" />
-              </LineChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
-      </div>
-
-      <Card>
+      {/* Budget Allocation Pie Chart */}
+      <Card className="bg-[rgba(24,24,27,0.6)] backdrop-blur-lg border border-gray-700 shadow-lg">
         <CardHeader>
-          <CardTitle>Add Budget Item</CardTitle>
+          <CardTitle className="text-lg sm:text-xl">Current Budget Allocation</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ResponsiveContainer width="100%" height={400}>
+            <PieChart>
+              <Pie
+                data={budgetItems}
+                dataKey="amount"
+                nameKey="category"
+                cx="50%"
+                cy="50%"
+                outerRadius={100}
+                label={({ value }) => formatNumber(value)}
+              >
+                {budgetItems.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
+              <Tooltip formatter={(value: number) => formatNumber(value)} />
+              <Legend />
+            </PieChart>
+          </ResponsiveContainer>
+        </CardContent>
+      </Card>
+
+      {/* Financial Forecast Line Chart */}
+      <Card className="bg-[rgba(24,24,27,0.6)] backdrop-blur-lg border border-gray-700 shadow-lg">
+        <CardHeader>
+          <CardTitle className="text-lg sm:text-xl">6-Month Financial Forecast</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ResponsiveContainer width="100%" height={400}>
+            <LineChart data={forecastData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="month" />
+              <YAxis tickFormatter={(value) => formatNumber(value)} />
+              <Tooltip formatter={(value: number) => formatNumber(value)} />
+              <Legend />
+              <Line type="monotone" dataKey="revenue" stroke="#8884d8" />
+              <Line type="monotone" dataKey="expenses" stroke="#82ca9d" />
+            </LineChart>
+          </ResponsiveContainer>
+        </CardContent>
+      </Card>
+
+      {/* Add Budget Item */}
+      <Card className="bg-[rgba(24,24,27,0.6)] backdrop-blur-lg border border-gray-700 shadow-lg">
+        <CardHeader>
+          <CardTitle className="text-lg sm:text-xl">Add Budget Item</CardTitle>
           <CardDescription>Enter a new budget category and amount</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleAddItem} className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="category">Category</Label>
                 <Input
@@ -128,20 +139,22 @@ export default function BudgetPlanning() {
                 />
               </div>
             </div>
-            <Button type="submit">Add Item</Button>
+            <Button type="submit" className="w-full sm:w-auto">Add Item</Button>
           </form>
         </CardContent>
       </Card>
 
-      <Card>
+      {/* Budget Summary */}
+      <Card className="bg-[rgba(24,24,27,0.6)] backdrop-blur-lg border border-gray-700 shadow-lg md:col-span-2">
         <CardHeader>
-          <CardTitle>Budget Summary</CardTitle>
+          <CardTitle className="text-lg sm:text-xl">Budget Summary</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-2xl font-bold">Total Budget: ${totalBudget.toLocaleString()}</p>
+          <p className="text-2xl font-bold text-center">
+            Total Budget: {formatNumber(totalBudget)}
+          </p>
         </CardContent>
       </Card>
     </div>
   )
 }
-

@@ -102,7 +102,7 @@ export default function Dashboard() {
         </Card>
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        <Card>
+        {/* <Card>
           <CardHeader>
             <CardTitle>Early Detection</CardTitle>
             <CardDescription>AI-powered risk analysis</CardDescription>
@@ -113,7 +113,7 @@ export default function Dashboard() {
               <Button className="mt-4">View Details</Button>
             </Link>
           </CardContent>
-        </Card>
+        </Card> */}
         <Card>
           <CardHeader>
             <CardTitle>Emergency Response</CardTitle>
@@ -121,7 +121,7 @@ export default function Dashboard() {
           </CardHeader>
           <CardContent>
             <p>1 active emergency response</p>
-            <Link href="/emergency-response">
+            <Link href="/admin/emergency-response">
               <Button className="mt-4">Manage Response</Button>
             </Link>
           </CardContent>
@@ -133,12 +133,12 @@ export default function Dashboard() {
           </CardHeader>
           <CardContent>
             <p>Next shift optimization ready</p>
-            <Link href="/resource-allocation">
+            <Link href="/admin/resource-allocation">
               <Button className="mt-4">Optimize Schedule</Button>
             </Link>
           </CardContent>
         </Card>
-        <Card>
+        {/* <Card>
           <CardHeader>
             <CardTitle>Diagnostic Support</CardTitle>
             <CardDescription>AI-powered image analysis</CardDescription>
@@ -149,7 +149,7 @@ export default function Dashboard() {
               <Button className="mt-4">Analyze Scans</Button>
             </Link>
           </CardContent>
-        </Card>
+        </Card> */}
         <Card>
           <CardHeader>
             <CardTitle>Medication Management</CardTitle>
@@ -157,7 +157,7 @@ export default function Dashboard() {
           </CardHeader>
           <CardContent>
             <p>2 medications low in stock</p>
-            <Link href="/medication-management">
+            <Link href="/admin/medication-management">
               <Button className="mt-4">View Inventory</Button>
             </Link>
           </CardContent>
@@ -169,7 +169,7 @@ export default function Dashboard() {
           </CardHeader>
           <CardContent>
             <p>All systems operating normally</p>
-            <Link href="/facility-monitoring">
+            <Link href="/admin/facility-monitoring">
               <Button className="mt-4">View Status</Button>
             </Link>
           </CardContent>
